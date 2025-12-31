@@ -1,0 +1,162 @@
+
+{% if section.settings.left_menu != blank %}
+
+    {% for link in section.settings.left_menu.links %}    
+        {% liquid
+          for block in section.blocks
+            if block.type == 'mega_menu'
+              if block.settings.megamenu_name != blank
+                assign is_megamenu = false
+                assign megamenu_name = block.settings.megamenu_name | handleize
+                if link.handle == megamenu_name
+                  assign is_megamenu = true
+                  assign block_content = block
+                endif
+              endif
+            endif
+          endfor
+        %}
+
+
+    {% endfor %}
+{% endif %}
+
+
+{% if section.settings.right_menu != blank %}
+  <ul>
+    {% for link in section.settings.right_menu.links %}    
+        {% liquid
+          for block in section.blocks
+            if block.type == 'mega_menu'
+              if block.settings.megamenu_name != blank
+                assign is_megamenu = false
+                assign megamenu_name = block.settings.megamenu_name | handleize
+                if link.handle == megamenu_name
+                  assign is_megamenu = true
+                  assign block = block
+                endif
+              endif
+            endif
+          endfor
+        %}
+        <li class="{% if link.links != blank or is_megamenu %}active {% endif %}menu-item">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+          {% if is_megamenu %}
+              {% render 'header-mega-menu', block: block %}
+          {% elsif link.links != blank %}  
+
+          {% endif %}  
+        </li>
+
+      {% endfor %}
+    </ul>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "t:sections.header.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:sections.header.settings.logo.label"
+      },
+      {
+        "type": "link_list",
+        "id": "left_menu",
+        "label": "t:sections.header.settings.left_menu.label"
+      },
+      {
+        "type": "link_list",
+        "id": "right_menu",
+        "label": "t:sections.header.settings.right_menu.label"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "mega_menu",
+        "name": "t:sections.header.blocks.megamenu.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "megamenu_name",
+            "label": "t:sections.header.blocks.megamenu.settings.text.label"
+          },
+          {
+            "type":"header",
+            "content":"t:sections.header.blocks.megamenu.settings.header__1.content"
+          },
+          {
+            "type": "text",
+            "id": "title_1",
+            "label": "t:sections.header.blocks.megamenu.settings.text.text__1.label"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_1",
+            "label": "t:sections.header.blocks.megamenu.settings.linklist.linklist_1.label"
+          },
+          {
+            "type":"header",
+            "content":"t:sections.header.blocks.megamenu.settings.header__2.content"
+          },
+          {
+            "type": "text",
+            "id": "title_2",
+            "label": "t:sections.header.blocks.megamenu.settings.text.text__2.label"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_2",
+            "label": "t:sections.header.blocks.megamenu.settings.linklist.linklist_2.label"
+          },
+          {
+            "type":"header",
+            "content":"t:sections.header.blocks.megamenu.settings.header__3.content"
+          },
+          {
+            "type": "text",
+            "id": "title_3",
+            "label": "t:sections.header.blocks.megamenu.settings.text.text__3.label"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_3",
+            "label": "t:sections.header.blocks.megamenu.settings.linklist.linklist_3.label"
+          },
+          {
+            "type":"header",
+            "content":"t:sections.header.blocks.megamenu.settings.header__image.content"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "t:sections.header.blocks.megamenu.settings.image.image__1.label"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "t:sections.header.blocks.megamenu.settings.image.image__2.label"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_3",
+            "label": "t:sections.header.blocks.megamenu.settings.image.image__3.label"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_4",
+            "label": "t:sections.header.blocks.megamenu.settings.image.image__4.label"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
